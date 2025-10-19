@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Results - MoodMusic</title>
+    <title>Results - AdFreeYT</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
@@ -28,8 +28,54 @@
             text-align: center;
         }
 
+        .top-bar {
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:30px;
+            flex-wrap:wrap;
+            gap:15px;
+        }
+
+        .top-bar form {
+            display:flex;
+            align-items:center;
+            gap:10px;
+            flex:1;
+            justify-content:center;
+        }
+
+        .search-box {
+            padding:10px 20px;
+            border-radius:30px;
+            border:2px solid #0ff;
+            background:#111;
+            color:#0ff;
+            width:60%;
+            font-size:1rem;
+            outline:none;
+            box-shadow: 0 0 10px #0ff inset;
+        }
+
+        .search-btn, .back-btn {
+            padding:10px 25px;
+            border:none;
+            border-radius:30px;
+            font-weight:bold;
+            background:linear-gradient(90deg,#0ff,#00f);
+            color:#000;
+            cursor:pointer;
+            box-shadow:0 0 20px #0ff;
+            transition:transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        .search-btn:hover, .back-btn:hover {
+            transform:scale(1.05);
+            box-shadow:0 0 40px #0ff;
+        }
+
         h1 {
-            font-size:2.5rem;
+            font-size:2.3rem;
             margin-bottom:30px;
             color:#0ff;
             text-shadow:0 0 10px #0ff,0 0 20px #0ff;
@@ -84,14 +130,24 @@
             box-shadow:0 0 50px #0ff;
         }
 
-        @media(max-width:500px){
-            h1 { font-size:2rem; }
-            .container { padding:25px 20px; }
+        @media(max-width:700px){
+            .search-box { width:100%; }
+            .top-bar { flex-direction:column; align-items:center; }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="top-bar">
+            <button class="back-btn" onclick="window.location.href='/'">⬅ Back</button>
+
+            <!-- 🔥 Unified search bar -->
+            <form action="/results" method="get">
+                <input class="search-box" type="text" name="query" placeholder="Search again..." required>
+                <button class="search-btn" type="submit">Search</button>
+            </form>
+        </div>
+
         <h1>Results for "{{ query }}"</h1>
 
         {% if videos %}
@@ -104,7 +160,6 @@
                     src="https://www.youtube.com/embed/{{ video.videoId }}" 
                     title="{{ video.title }}" 
                     frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen>
                 </iframe>
                 <p>{{ video.title }}</p>
@@ -113,19 +168,16 @@
         </div>
         {% else %}
         <p>No results found for "{{ query }}"</p>
-        {% if query %}
-        <p>Check your API key or quota.</p>
-        {% endif %}
         {% endif %}
 
         <a href="/">Go Back</a>
     </div>
 
     <script>
-        // GSAP animations
-        gsap.from("h1",{opacity:0, y:-50, duration:1, ease:"power3.out"});
-        gsap.from(".video-card",{opacity:0, y:50, duration:1, delay:0.3, stagger:0.2});
-        gsap.from("a",{opacity:0, y:20, duration:0.8, delay:0.6});
+        gsap.from(".top-bar",{opacity:0, y:-50, duration:0.8, ease:"power3.out"});
+        gsap.from("h1",{opacity:0, y:-30, duration:1, delay:0.2});
+        gsap.from(".video-card",{opacity:0, y:50, duration:1, delay:0.4, stagger:0.15});
+        gsap.from("a",{opacity:0, y:20, duration:0.8, delay:1});
     </script>
 </body>
 </html>
