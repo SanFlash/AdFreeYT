@@ -8,7 +8,7 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 YOUTUBE_API_KEY = os.environ.get("YOUTUBE_API_KEY") or "AIzaSyBqQfYpBhEJ9GQfJ2xX9e4Xns1fL5z6ck8"
 
 
-def search_youtube(query, max_results=24):
+def search_youtube(query, max_results=60):
     """Search YouTube videos using the Data API v3"""
     url = "https://www.googleapis.com/youtube/v3/search"
     params = {
@@ -58,3 +58,4 @@ def results():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port, debug=True)
+
